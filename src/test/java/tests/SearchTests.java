@@ -73,15 +73,15 @@ public class SearchTests extends CoreTestCase
         SearchPageObject.assertThereIsNoResultOfSearch();
     }
 
-    //Ex12*: Рефакторинг тестов
+    //Ex18*: Рефакторинг
     @Test
     public void testSearchTitleAndDesc()
     {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.waitForElementByTitleAndDescription("Java","Island in Southeast Asia");
-        SearchPageObject.waitForElementByTitleAndDescription("JavaScript","High-level programming language");
-        SearchPageObject.waitForElementByTitleAndDescription("Java (programming language)","Object-oriented programming language");
+        SearchPageObject.waitForElementByTitleAndDescription("Java","sland in Southeast Asia");
+        SearchPageObject.waitForElementByTitleAndDescription("JavaScript","igh-level programming language");
+        SearchPageObject.waitForElementByTitleAndDescription("Java (programming language)","bject-oriented programming language");
     }
 }

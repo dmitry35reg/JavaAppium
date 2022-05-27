@@ -8,7 +8,9 @@ abstract public class NavigationUI extends MainPageObject{
 
     protected static String
             MY_LISTS_LINK,
-            OPEN_NAVIGATION;
+            OPEN_NAVIGATION,
+            LOGIN_NAVIGATION;
+
 
     public NavigationUI (RemoteWebDriver driver)
     {
@@ -34,6 +36,23 @@ abstract public class NavigationUI extends MainPageObject{
         } else {
             this.waitForElementAndClick(
                     MY_LISTS_LINK,
+                    "Cannot find navigation button to My list",
+                    5
+            );
+        }
+    }
+
+    public void clickLogInNavigation()
+    {
+        if (Platform.getInstance().isMw()) {
+            this.tryClickElementWithFewAttempts(
+                    LOGIN_NAVIGATION,
+                    "Cannot find navigation button to My list",
+                    5
+            );
+        } else {
+            this.waitForElementAndClick(
+                    LOGIN_NAVIGATION,
                     "Cannot find navigation button to My list",
                     5
             );
