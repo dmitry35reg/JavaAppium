@@ -12,7 +12,7 @@ import org.junit.Test;
 public class MyListsTests extends CoreTestCase {
     private static final String name_of_folder = "Learning programming";
     private static final String
-            login = "dmitriy35reg",
+            login = "Dmitriy35reg",
             password = "rafoleloge78";
 
     @Test
@@ -70,18 +70,18 @@ public class MyListsTests extends CoreTestCase {
     }
 
 
-    //Ex5: Тест: сохранение двух статей
+    //Ex17: Рефакторинг
     @Test
     public void testSaveTwoArticlesToMyList()
     {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
-        SearchPageObject.typeSearchLine("Java");
+        String search_line = "Java";
+        SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
-        String first_article_title = ArticlePageObject.getArticleTitle();
 
         if (Platform.getInstance().isAndroid()) {
             ArticlePageObject.addArticleToMyList(name_of_folder);
@@ -90,49 +90,55 @@ public class MyListsTests extends CoreTestCase {
         }
 
         ArticlePageObject.closeArticle();
-        if (Platform.getInstance().isIOS()) {
-            SearchPageObject.clickCancelSearch();
+
+        if (Platform.getInstance().isMw())
+        {
+            AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
+            Auth.clickAuthButton();
+            Auth.enterLoginData(login, password);
+            Auth.submitForm();
+
+            ArticlePageObject.waitForTitleElement();
+            String article_title = "Java (programming language)";
+            assertEquals(
+                    "We are not on the same page after login",
+                    article_title,
+                    ArticlePageObject.getArticleTitle()
+            );
         }
 
         SearchPageObject.initSearchInput();
-        SearchPageObject.typeSearchLine("Appium");
-        SearchPageObject.clickByArticleWithSubstring("utomation for Apps");
-        String second_article_title = "Appium";
+        SearchPageObject.typeSearchLine(search_line);
         if (Platform.getInstance().isAndroid()) {
-            ArticlePageObject.addArticleToCreatedFolderByName(name_of_folder);;
+            SearchPageObject.clickByArticleWithSubstring("Programming language");
+        } else {
+            SearchPageObject.clickByArticleWithSubstring("High-level programming language");
+        }
+
+        ArticlePageObject.waitForTitleElement();
+
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addArticleToCreatedFolderByName(name_of_folder);
         } else {
             ArticlePageObject.addArticlesToMySaved();
         }
-
         ArticlePageObject.closeArticle();
-        if (Platform.getInstance().isIOS()) {
-            SearchPageObject.clickCancelSearch();
-        }
 
         NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.openNavigation();
         NavigationUI.clickMyLists();
 
         MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
         if (Platform.getInstance().isAndroid()) {
             MyListsPageObject.openFolderByName(name_of_folder);
-        }
-        if (Platform.getInstance().isIOS()) {
+        } else if (Platform.getInstance().isIOS()) {
             MyListsPageObject.closeSyncSavedArticlesPopUp();
         }
+
+        String first_article_title = "Java (programming language)";
         MyListsPageObject.swipeByArticleToDelete(first_article_title);
+
+        String second_article_title = "JavaScript";
         MyListsPageObject.waitForArticleToAppearByTitle(second_article_title);
-        MyListsPageObject.openArticleByTitle(second_article_title);
-
-        if (Platform.getInstance().isAndroid()) {
-            ArticlePageObject.waitForTitleElement();
-            String article_title = ArticlePageObject.getArticleTitle();
-
-            assertEquals(
-                    "We see unexpected title!",
-                    second_article_title,
-                    article_title
-            );
-        } else
-            MyListsPageObject.waitForArticleToAppearByTitle(second_article_title);
     }
 }
