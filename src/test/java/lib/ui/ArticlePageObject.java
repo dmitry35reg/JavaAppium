@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -27,20 +28,24 @@ abstract public class ArticlePageObject extends MainPageObject{
     }
 
     /*TEMPLATES METHODS*/
+    @Step("Get created folder by name")
     private static String getCreatedFolderByName(String name_of_folder)
     {
         return CREATED_FOLDER_ELEMENT_TPL.replace("{FOLDER_NAME}", name_of_folder);
     }
     /*TEMPLATES METHODS*/
 
+    @Step("Waiting for title on the article page")
     public WebElement waitForTitleElement()
     {
         return this.waitForElementAndClick((TITLE), "Cannot find article title on page!", 15);
     }
 
+    @Step("Get article title")
     public String getArticleTitle()
     {
         WebElement title_element = waitForTitleElement();
+        screenshot(this.takeScreenshot("article_title"));
         if (Platform.getInstance().isAndroid()) {
             return title_element.getAttribute("text");
         } else  if (Platform.getInstance().isIOS()){
@@ -50,6 +55,7 @@ abstract public class ArticlePageObject extends MainPageObject{
         }
     }
 
+    @Step("Swiping to fotter on article page")
     public void swipeToFooter() {
         if (Platform.getInstance().isAndroid()) {
             this.swipeUpToFindElement(
@@ -72,6 +78,7 @@ abstract public class ArticlePageObject extends MainPageObject{
         }
     }
 
+    @Step("Clicking on created folder by name")
     public void clickCreatedFolderByName(String name_of_folder) {
         String created_folder_xpath = getCreatedFolderByName(name_of_folder);
         this.waitForElementAndClick((created_folder_xpath), "Cannot find and click created folder by name " + name_of_folder, 10);
@@ -82,6 +89,7 @@ abstract public class ArticlePageObject extends MainPageObject{
         this.assertElementPresent((TITLE), "Cannot find article title on page!");
     }
 
+    @Step("Adding the article to my list")
     public void addArticleToMyList(String name_of_folder)
     {
         this.waitForElementAndClick(
@@ -122,6 +130,7 @@ abstract public class ArticlePageObject extends MainPageObject{
         );
     }
 
+    @Step("Adding the article to created list")
     public void addArticleToCreatedFolderByName(String name_of_folder)
     {
         this.waitForElementAndClick(
@@ -139,6 +148,7 @@ abstract public class ArticlePageObject extends MainPageObject{
         this.clickCreatedFolderByName(name_of_folder);
     }
 
+    @Step("Adding the article to my saved articles")
     public void addArticlesToMySaved()
     {
         if (Platform.getInstance().isMw()){
@@ -152,6 +162,7 @@ abstract public class ArticlePageObject extends MainPageObject{
         }
     }
 
+    @Step("Remove the article from saved if it was added")
     public void removeArticleFromSavedIfItAdded()
     {
 
@@ -169,6 +180,7 @@ abstract public class ArticlePageObject extends MainPageObject{
         );
     }
 
+    @Step("Closing the article")
     public void closeArticle()
     {
         if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
