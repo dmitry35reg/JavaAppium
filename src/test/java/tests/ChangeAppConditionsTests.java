@@ -1,5 +1,7 @@
 package tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.ArticlePageObject;
@@ -14,6 +16,11 @@ public class ChangeAppConditionsTests extends CoreTestCase
 {
 
     @Test
+    @Features(value = {@Feature(value = "Search"), @Feature(value = "Article")})
+    @DisplayName("Change screen orientation on search result")
+    @Description("We open 'Java object-oriented programming language' article, rotate screen landscape and make sure the title is expected")
+    @Step("Starting test testChangeScreenOrientationOnSearchResult")
+    @Severity(value = SeverityLevel.MINOR)
     public void testChangeScreenOrientationOnSearchResult()
     {
         if (Platform.getInstance().isMw()) {
@@ -46,6 +53,11 @@ public class ChangeAppConditionsTests extends CoreTestCase
     }
 
     @Test
+    @Feature(value = "Search")
+    @DisplayName("Background app on search page")
+    @Description("We open 'Java object-oriented programming language' article, background app for 2 sec and make sure the title is expected")
+    @Step("Starting test testSearchArticleInBackground")
+    @Severity(value = SeverityLevel.MINOR)
     public void testSearchArticleInBackground()
     {
         if (Platform.getInstance().isMw()) {

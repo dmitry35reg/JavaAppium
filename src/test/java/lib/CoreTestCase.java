@@ -81,7 +81,7 @@ public class CoreTestCase {
         }
     }
 
-    @Step("Skip welcome page screen for iOS")
+    @Step("Skip welcome page screen for iOS (This method does nothing for Android and Mobile Web)")
     private void skipWelcomePageForIOSApp()
     {
         if (Platform.getInstance().isIOS()){

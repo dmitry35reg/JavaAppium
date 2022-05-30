@@ -1,6 +1,5 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -21,11 +20,13 @@ abstract public class SearchPageObject extends MainPageObject {
     }
 
     /*TEMPLATES METHODS*/
+    @Step("Getting result search element by substring '{substring}'")
     private static String getResultSearchElement(String substring)
     {
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
     }
 
+    @Step("Getting result search element by title '{title}' and substring '{substring}'")
     private static String getResultSearchElementByTitleAndDesc(String title, String description)
     {
         return SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TPL.replace("{TITLE}", title).replace("{DESCRIPTION}", description);

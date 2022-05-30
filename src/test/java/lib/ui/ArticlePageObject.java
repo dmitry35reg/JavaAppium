@@ -1,12 +1,9 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
-import java.util.Locale;
 
 abstract public class ArticlePageObject extends MainPageObject{
 
@@ -28,7 +25,7 @@ abstract public class ArticlePageObject extends MainPageObject{
     }
 
     /*TEMPLATES METHODS*/
-    @Step("Get created folder by name")
+    @Step("Getting created folder by name")
     private static String getCreatedFolderByName(String name_of_folder)
     {
         return CREATED_FOLDER_ELEMENT_TPL.replace("{FOLDER_NAME}", name_of_folder);
